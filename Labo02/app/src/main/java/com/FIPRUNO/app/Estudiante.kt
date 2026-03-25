@@ -1,3 +1,3 @@
 package com.FIPRUNO.app
 
-data class Estudiante(val nombre: String)
+class Estudiante(val nombre: String)

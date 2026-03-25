@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -52,68 +54,72 @@ class MainActivity : ComponentActivity() {
 fun Greeting(modifier: Modifier = Modifier) {
 
     val usuario: MutableState<String> = remember { mutableStateOf("") }
-    // Creamos una lista mutable que Compose pueda observar
     val listaEstudiantes = remember { mutableStateListOf<Estudiante>() }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color.White)
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Box(modifier = Modifier.background(Color.White).weight(0.20f).fillMaxWidth(), contentAlignment = Alignment.Center ) {
-            TextField(
-                value = usuario.value,
-                onValueChange = {
-                    usuario.value = it
-                },
-                label = { Text("Usuario") }
-            )
-        }
-        Box(modifier = Modifier.background(Color.White).weight(0.10f).fillMaxWidth(), contentAlignment = Alignment.Center ) {
-            Button(onClick = {
+        TextField(
+            value = usuario.value,
+            onValueChange = { usuario.value = it },
+            label = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(
+            onClick = {
                 if (usuario.value.isNotBlank()) {
                     listaEstudiantes.add(Estudiante(usuario.value))
-                    usuario.value = "" // Limpiar el campo después de guardar
+                    usuario.value = ""
                 }
-            }) {
-                Text(text = "Guardar")
+            },
+            modifier = Modifier
+        ) {
+            Text(text = "Guardar")
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Listado de nombre y posición en la lista",
+                color = Color.DarkGray,
+                modifier = Modifier.weight(1f)
+            )
+            Button(onClick = { listaEstudiantes.clear() }) {
+                Text(text = "Limpiar",
+                    textAlign = TextAlign.Center)
             }
         }
-        Row(modifier = Modifier.weight(0.30f)) {
-            Box(modifier = Modifier.background(Color.White).weight(1.5f).fillMaxHeight(), contentAlignment = Alignment.Center) {
-                Text(text = "Listado de nombres y posición en la lista", textAlign = TextAlign.Justify)
-            }
-            Box(modifier = Modifier.background(Color.White).weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
-                Button(onClick = {
-                    listaEstudiantes.clear()
-                }) {
-                    Text(text = "Limpiar")
-                }
-            }
-        }
-        Box(modifier = Modifier.background(Color.White).weight(1f).fillMaxWidth(), contentAlignment = Alignment.TopCenter ) {
-            LazyColumn {
-                itemsIndexed(listaEstudiantes) { index, item ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = item.nombre // Accedemos a la propiedad nombre
-                        )
-                        Text(
-                            text = (index + 1).toString()
-                        )
-                    }
+
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize().border(1.dp, Color.LightGray, shape = RoundedCornerShape(8.dp))
+        ) {
+            itemsIndexed(listaEstudiantes) { index, item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = item.nombre)
+                    Text(
+                        text = "${index + 1}",
+                        color = Color.Gray
+                    )
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
