@@ -111,7 +111,8 @@ fun Greeting(modifier: Modifier = Modifier) {
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = item.nombre)
+                    Text(text = item.nombre,
+                        color = Color.Gray)
                     Text(
                         text = "${index + 1}",
                         color = Color.Gray
