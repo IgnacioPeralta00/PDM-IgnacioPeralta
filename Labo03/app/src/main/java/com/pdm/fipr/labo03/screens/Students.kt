@@ -120,7 +120,6 @@ fun StudentsScreen(
             Button(
                 onClick = onBackHome,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
                 Text(
