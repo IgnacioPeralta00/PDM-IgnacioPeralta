@@ -8,6 +8,6 @@ data class Task @RequiresApi(Build.VERSION_CODES.O) constructor(
     val id: Int = 0,
     val title: String,
     val description: String,
-    val endDate: Instant = Instant.now(),
+    val startDate: Instant = Instant.now(),
     val isCompleted: Boolean = false
 )

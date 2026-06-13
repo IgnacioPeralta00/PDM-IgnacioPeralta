@@ -10,6 +10,6 @@ data class TaskEntity(
     val id: Int,
     val title: String,
     val content: String,
-    val endDate: Instant,
+    val startDate: Instant,
     val isCompleted: Boolean = false
 )

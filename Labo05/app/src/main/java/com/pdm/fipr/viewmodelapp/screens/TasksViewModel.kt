@@ -1,5 +1,7 @@
 package com.pdm.fipr.viewmodelapp.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -27,6 +29,7 @@ class TasksViewModel(
                 initialValue = emptyList()
             )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addTask(
         title : String,
         description : String
@@ -40,6 +43,13 @@ class TasksViewModel(
             )
         }
     }
+
+    fun updateCompletedTask(task : Task) {
+        viewModelScope.launch {
+            taskRepository.insertTask(task.copy(isCompleted = !task.isCompleted))
+        }
+    }
+
     fun deleteTask(task : Task) {
         viewModelScope.launch {
             taskRepository.deleteTask(task)

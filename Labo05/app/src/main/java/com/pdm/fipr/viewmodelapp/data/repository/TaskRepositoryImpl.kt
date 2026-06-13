@@ -1,5 +1,7 @@
 package com.pdm.fipr.viewmodelapp.data.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.pdm.fipr.viewmodelapp.data.local.dao.TaskDao
 import com.pdm.fipr.viewmodelapp.data.local.mapper.toDomainModel
 import com.pdm.fipr.viewmodelapp.data.local.mapper.toEntity
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.map
 class TaskRepositoryImpl(
     private val dataSource: TaskDao,
 ) : TaskRepository {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun getAllTasks(): Flow<List<Task>> {
         return dataSource.getAllTasks().map { tasks ->
             tasks.map { task -> task.toDomainModel() }

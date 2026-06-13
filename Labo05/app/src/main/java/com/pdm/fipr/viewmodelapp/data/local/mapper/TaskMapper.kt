@@ -12,7 +12,7 @@ fun Task.toEntity() = TaskEntity(
     id = id,
     title = title,
     content = description,
-    endDate = endDate,
+    startDate = startDate,
     isCompleted = isCompleted
 )
 
@@ -22,6 +22,6 @@ fun TaskEntity.toDomainModel() = Task(
     id = id,
     title = title,
     description = content,
-    endDate = endDate,
+    startDate = startDate,
     isCompleted = isCompleted
 )
