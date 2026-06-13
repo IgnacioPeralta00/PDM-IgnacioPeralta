@@ -1,7 +1,6 @@
 package com.pdm.fipr.viewmodelapp.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,16 +12,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.pdm.fipr.viewmodelapp.model.Task
+import com.pdm.fipr.viewmodelapp.domain.model.Task
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
-    viewModel: TasksViewModel = viewModel()
+    viewModel: TasksViewModel = viewModel(factory = TasksViewModel.Factory)
 ) {
-    val tasks by viewModel.tasks.collectAsState()
+    val tasks by viewModel.tasks.collectAsStateWithLifecycle()
 
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -71,13 +71,8 @@ fun TasksScreen(
                 onClick = {
                     if (title.isNotBlank() && description.isNotBlank()) {
                         viewModel.addTask(
-                            Task(
-                                id = tasks.size + 1,
-                                title = title,
-                                description = description,
-                                endDate = Date(),
-                                isCompleted = false
-                            )
+                            title = title,
+                            description = description
                         )
                         title = ""
                         description = ""
